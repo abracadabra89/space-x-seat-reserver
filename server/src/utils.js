@@ -1,11 +1,11 @@
-const SQL = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 module.exports.paginateResults = ({
   after: cursor,
   pageSize = 20,
   results,
   // can pass in a function to calculate an item's cursor
-  getCursor = () => null,
+  getCursor = () => null
 }) => {
   if (pageSize < 1) return [];
 
@@ -23,47 +23,31 @@ module.exports.paginateResults = ({
       ? []
       : results.slice(
           cursorIndex + 1,
-          Math.min(results.length, cursorIndex + 1 + pageSize),
+          Math.min(results.length, cursorIndex + 1 + pageSize)
         )
     : results.slice(0, pageSize);
 };
 
 module.exports.createStore = () => {
-  const Op = SQL.Op;
-  const operatorsAliases = {
-    $in: Op.in,
-  };
-
-  const db = new SQL('database', 'username', 'password', {
-    dialect: 'sqlite',
-    storage: './store.sqlite',
-    operatorsAliases,
-    logging: false,
+  const db = new Sequelize({
+    dialect: "sqlite",
+    storage: "./store.sqlite"
   });
 
-  const users = db.define('user', {
-    id: {
-      type: SQL.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    createdAt: SQL.DATE,
-    updatedAt: SQL.DATE,
-    email: SQL.STRING,
-    token: SQL.STRING,
+  const users = db.define("user", {
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE,
+    email: Sequelize.STRING,
+    profileImage: Sequelize.STRING,
+    token: Sequelize.STRING
   });
 
-  const trips = db.define('trip', {
-    id: {
-      type: SQL.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    createdAt: SQL.DATE,
-    updatedAt: SQL.DATE,
-    launchId: SQL.INTEGER,
-    userId: SQL.INTEGER,
+  const trips = db.define("trip", {
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE,
+    launchId: Sequelize.INTEGER,
+    userId: Sequelize.INTEGER
   });
 
-  return { users, trips };
+  return { db, users, trips };
 };

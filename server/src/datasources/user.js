@@ -1,5 +1,5 @@
-const { DataSource } = require('apollo-datasource');
 const isEmail = require('isemail');
+const { DataSource } = require('apollo-datasource');
 
 class UserAPI extends DataSource {
   constructor({ store }) {
@@ -78,6 +78,20 @@ class UserAPI extends DataSource {
     });
     return found && found.length > 0;
   }
-}
 
+  /**
+   * This function is currently only used by the iOS tutorial to upload a
+   * profile image to S3 and update the user row
+   */
+  
+    /**
+     * Destructure mimetype and stream creator from provided file and generate
+     * a unique filename for the upload
+     */
+    
+    // Upload the file to an S3 bucket using the createReadStream
+    
+  
+}
+    
 module.exports = UserAPI;

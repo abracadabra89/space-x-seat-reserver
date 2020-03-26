@@ -1,5 +1,5 @@
 module.exports = {
   service: {
-    name: "graph-one"
+    name: "Space Explorer [web]"
   }
 };
